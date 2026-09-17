@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Business Employee</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f6f7fb;
+  color:#111827;
+}
+
+header{
+  width:100%;
+  background:white;
+  border-bottom:1px solid #e5e7eb;
+  padding:18px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+}
+
+.login-btn{
+  padding:10px 20px;
+  background:white;
+  border:1px solid #111827;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.login-btn:hover{
+  background:#111827;
+  color:white;
+}
+
+/* HERO */
+
+.hero{
+  text-align:center;
+  padding:90px 20px 70px;
+}
+
+.hero h1{
+  font-size:52px;
+  line-height:1.08;
+  max-width:800px;
+  margin:auto;
+}
+
+.hero p{
+  max-width:650px;
+  margin:22px auto;
+  font-size:19px;
+  line-height:1.6;
+  color:#6b7280;
+}
+
+.start-btn{
+  margin-top:15px;
+  padding:16px 30px;
+  border:0;
+  border-radius:10px;
+  background:#111827;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.start-btn:hover{
+  transform:translateY(-2px);
+  background:#000;
+}
+
+/* FEATURES */
+
+.features{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px 90px;
+}
+
+.features h2{
+  text-align:center;
+  font-size:34px;
+  margin-bottom:40px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.icon{
+  font-size:35px;
+  margin-bottom:15px;
+}
+
+.card h3{
+  font-size:21px;
+  margin-bottom:10px;
+}
+
+.card p{
+  color:#6b7280;
+  line-height:1.6;
+}
+
+/* APP */
+
+#app{
+  display:none;
+  max-width:1000px;
+  margin:auto;
+  padding:40px 20px 100px;
+}
+
+.app-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.app-title h2{
+  font-size:34px;
+}
+
+.app-title p{
+  color:#6b7280;
+  margin-top:8px;
+}
+
+.tools{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:30px;
+}
+
+.tool{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  padding:25px;
+  cursor:pointer;
+}
+
+.tool:hover{
+  border-color:#111827;
+  transform:translateY(-2px);
+}
+
+.tool h3{
+  margin-bottom:8px;
+}
+
+.tool p{
+  color:#6b7280;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.workspace{
+  background:white;
+  border:1px solid #e5e7eb;
+  border-radius:16px;
+  padding:25px;
+}
+
+.workspace h3{
+  margin-bottom:15px;
+}
+
+textarea{
+  width:100%;
+  min-height:140px;
+  padding:15px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  font-size:16px;
+  resize:vertical;
+  outline:none;
+}
+
+textarea:focus{
+  border-color:#111827;
+}
+
+.generate-btn{
+  margin-top:15px;
+  padding:13px 22px;
+  border:0;
+  border-radius:9px;
+  background:#111827;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.output{
+  margin-top:20px;
+  background:#f3f4f6;
+  border-radius:10px;
+  padding:20px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  display:none;
+}
+
+/* LOGIN */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:500;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:400px;
+  padding:30px;
+  border-radius:16px;
+}
+
+.modal-box h2{
+  margin-bottom:20px;
+}
+
+.input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:15px;
+}
+
+.modal-login{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:8px;
+  background:#111827;
+  color:white;
+  font-weight:bold;
+}
+
+.close{
+  float:right;
+  font-size:25px;
+  cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:750px){
+
+  header{
+    padding:16px 20px;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .hero{
+    padding:65px 20px 55px;
+  }
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .hero p{
+    font-size:17px;
+  }
+
+  .features h2{
+    font-size:29px;
+  }
+
+  .cards,
+  .tools{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    padding:25px;
+  }
+
+  #app{
+    padding-top:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="logo">
+    AI Business Employee
+  </div>
+
+  <button class="login-btn" onclick="openLogin()">
+    Login
+  </button>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero" id="home">
+
+  <h1>
+    Your AI Employee for Business
+  </h1>
+
+  <p>
+    Create product listings, marketing content,
+    business ideas and more with one simple AI assistant.
+  </p>
+
+  <button class="start-btn" onclick="startApp()">
+    Start Free
+  </button>
+
+</section>
+
+
+<!-- FEATURES -->
+
+<section class="features" id="features">
+
+  <h2>
+    Everything Your Business Needs
+  </h2>
+
+  <div class="cards">
+
+    <div class="card">
+
+      <div class="icon">🤖</div>
+
+      <h3>
+        AI Assistant
+      </h3>
+
+      <p>
+        Ask business questions and get useful
+        ideas, strategies and solutions.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="icon">🛍️</div>
+
+      <h3>
+        Product Listing
+      </h3>
+
+      <p>
+        Generate product titles, descriptions,
+        bullet points and keywords.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="icon">📣</div>
+
+      <h3>
+        Marketing
+      </h3>
+
+      <p>
+        Create captions, advertisements,
+        social media content and marketing ideas.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- APP -->
+
+<section id="app">
+
+  <div class="app-title">
+
+    <h2>
+      AI Business Employee
+    </h2>
+
+    <p>
+      Choose a business task to get started.
+    </p>
+
+  </div>
+
+
+  <div class="tools">
+
+    <div class="tool" onclick="selectTool('assistant')">
+
+      <h3>🤖 AI Assistant</h3>
+
+      <p>
+        Ask anything about your business.
+      </p>
+
+    </div>
+
+
+    <div class="tool" onclick="selectTool('listing')">
+
+      <h3>🛍️ Product Listing</h3>
+
+      <p>
+        Create professional product listings.
+      </p>
+
+    </div>
+
+
+    <div class="tool" onclick="selectTool('marketing')">
+
+      <h3>📣 Marketing</h3>
+
+      <p>
+        Generate marketing content and ideas.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="workspace">
+
+    <h3 id="taskTitle">
+      🤖 AI Assistant
+    </h3>
+
+    <textarea
+      id="userInput"
+      placeholder="Type your business question here..."
+    ></textarea>
+
+    <button
+      class="generate-btn"
+      onclick="generateContent()"
+    >
+      Generate
+    </button>
+
+    <div
+      class="output"
+      id="output"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<!-- LOGIN MODAL -->
+
+<div class="modal" id="loginModal">
+
+  <div class="modal-box">
+
+    <span
+      class="close"
+      onclick="closeLogin()"
+    >
+      ×
+    </span>
+
+    <h2>
+      Login
+    </h2>
+
+    <input
+      class="input"
+      type="email"
+      placeholder="Email"
+      id="email"
+    >
+
+    <input
+      class="input"
+      type="password"
+      placeholder="Password"
+      id="password"
+    >
+
+    <button
+      class="modal-login"
+      onclick="loginUser()"
+    >
+      Login
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* START FREE */
+
+function startApp(){
+
+  document.getElementById("home").style.display = "none";
+
+  document.getElementById("features").style.display = "none";
+
+  document.getElementById("app").style.display = "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* TOOL SELECT */
+
+let currentTool = "assistant";
+
+function selectTool(tool){
+
+  currentTool = tool;
+
+  const title =
+    document.getElementById("taskTitle");
+
+  const input =
+    document.getElementById("userInput");
+
+  if(tool === "assistant"){
+
+    title.innerText = "🤖 AI Assistant";
+
+    input.placeholder =
+      "Example: Give me 10 business ideas for India...";
+
+  }
+
+  if(tool === "listing"){
+
+    title.innerText = "🛍️ Product Listing";
+
+    input.placeholder =
+      "Example: Create Amazon listing for a cotton doormat...";
+
+  }
+
+  if(tool === "marketing"){
+
+    title.innerText = "📣 Marketing";
+
+    input.placeholder =
+      "Example: Create Instagram advertisement for my product...";
+
+  }
+
+}
+
+
+/* GENERATE */
+
+function generateContent(){
+
+  const input =
+    document.getElementById("userInput").value.trim();
+
+  const output =
+    document.getElementById("output");
+
+  if(input === ""){
+
+    alert("Please enter your business request first.");
+
+    return;
+
+  }
+
+  output.style.display = "block";
+
+  if(currentTool === "assistant"){
+
+    output.innerText =
+`AI Business Assistant
+
+Your request:
+${input}
+
+Here is a practical business approach:
+
+1. Understand your target customer.
+2. Identify the main problem your product solves.
+3. Create a simple and clear offer.
+4. Promote the offer using social media.
+5. Track views, clicks and sales.
+6. Improve the offer based on customer response.
+
+Tip:
+Start small, test your idea and improve it using real customer feedback.`;
+
+  }
+
+
+  if(currentTool === "listing"){
+
+    output.innerText =
+`PRODUCT LISTING
+
+Product:
+${input}
+
+TITLE:
+Premium Quality ${input} | Durable & Stylish | Perfect for Home & Everyday Use
+
+BULLET POINTS:
+
+• Premium quality material
+• Durable and easy to use
+• Stylish design
+• Suitable for everyday use
+• Great choice for home and gifting
+
+DESCRIPTION:
+
+Upgrade your everyday experience with this premium quality product.
+Designed for convenience, durability and style, it is suitable for
+regular use and makes a practical choice for customers.
+
+KEYWORDS:
+
+premium product
+home essentials
+durable product
+best quality
+value for money`;
+
+  }
+
+
+  if(currentTool === "marketing"){
+
+    output.innerText =
+`MARKETING CONTENT
+
+Product / Business:
+${input}
+
+SOCIAL MEDIA CAPTION:
+
+🚀 Make your business better with our amazing product!
+
+✨ Premium quality
+✨ Useful design
+✨ Great value
+
+Perfect for customers looking for quality and convenience.
+
+Call to Action:
+Shop now and discover the difference!
+
+HASHTAGS:
+
+#Business
+#OnlineBusiness
+#SmallBusiness
+#Entrepreneur
+#Marketing
+#Product
+#Ecommerce`;
+
+  }
+
+}
+
+
+/* LOGIN */
+
+function openLogin(){
+
+  document.getElementById("loginModal").style.display =
+    "flex";
+
+}
+
+function closeLogin(){
+
+  document.getElementById("loginModal").style.display =
+    "none";
+
+}
+
+function loginUser(){
+
+  const email =
+    document.getElementById("email").value;
+
+  const password =
+    document.getElementById("password").value;
+
+  if(email === "" || password === ""){
+
+    alert("Please enter email and password.");
+
+    return;
+
+  }
+
+  alert(
+    "Demo login successful! Backend authentication will be connected next."
+  );
+
+  closeLogin();
+
+}
+
+
+/* CLOSE MODAL */
+
+window.onclick = function(event){
+
+  const modal =
+    document.getElementById("loginModal");
+
+  if(event.target === modal){
+
+    closeLogin();
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
